@@ -16,6 +16,9 @@ jobs:
     if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@v5
+        with:
+          # GITHUB_TOKEN 没有 workflows 权限，改写 run.yml 后无法推送，必须用 PAT
+          token: ${{ secrets.PAT }}
       - name: random cron
         run: |
           source cron_convert.sh
